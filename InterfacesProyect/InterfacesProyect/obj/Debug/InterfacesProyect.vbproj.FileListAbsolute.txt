@@ -1,1 +1,12 @@
 C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\bin\Debug\InterfacesProyect.exe.config
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\bin\Debug\InterfacesProyect.exe
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\bin\Debug\InterfacesProyect.pdb
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\bin\Debug\InterfacesProyect.xml
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\bin\Debug\MySql.Data.dll
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.vbprojResolveAssemblyReference.cache
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.Form1.resources
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.Resources.resources
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.vbproj.GenerateResource.Cache
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.exe
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.xml
+C:\Users\a13davidtm\Desktop\GitHub\InterfacesProject\InterfacesProyect\InterfacesProyect\obj\Debug\InterfacesProyect.pdb
