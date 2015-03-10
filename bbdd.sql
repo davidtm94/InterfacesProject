@@ -18,60 +18,60 @@ USE `A13DavidTM`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `AlmacenDeComponentes`
+-- Table structure for table `CategoriaComponente`
 --
 
-DROP TABLE IF EXISTS `AlmacenDeComponentes`;
+DROP TABLE IF EXISTS `CategoriaComponente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `AlmacenDeComponentes` (
-  `idAlmacenDeComponentes` int(11) NOT NULL,
-  `Stock` varchar(45) DEFAULT NULL,
-  `StockMinimo` varchar(45) DEFAULT NULL,
-  `StockReposicion` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idAlmacenDeComponentes`),
-  UNIQUE KEY `idAlmacenDeComponentes_UNIQUE` (`idAlmacenDeComponentes`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `CategoriaComponente` (
+  `IdCategoría` int(10) NOT NULL AUTO_INCREMENT,
+  `NombreCategoría` varchar(15) DEFAULT NULL,
+  `Descripción` longtext,
+  PRIMARY KEY (`IdCategoría`),
+  UNIQUE KEY `NombreCategoría` (`NombreCategoría`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `AlmacenDeComponentes`
+-- Dumping data for table `CategoriaComponente`
 --
 
-LOCK TABLES `AlmacenDeComponentes` WRITE;
-/*!40000 ALTER TABLE `AlmacenDeComponentes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `AlmacenDeComponentes` ENABLE KEYS */;
+LOCK TABLES `CategoriaComponente` WRITE;
+/*!40000 ALTER TABLE `CategoriaComponente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CategoriaComponente` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Clientes`
+-- Table structure for table `Cliente`
 --
 
-DROP TABLE IF EXISTS `Clientes`;
+DROP TABLE IF EXISTS `Cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Clientes` (
-  `DNI` varchar(9) NOT NULL,
-  `Nombre` varchar(60) DEFAULT NULL,
-  `Apellidos` varchar(120) DEFAULT NULL,
-  `Direccion` varchar(200) DEFAULT NULL,
-  `Ciudad` varchar(60) DEFAULT NULL,
-  `Región` varchar(45) DEFAULT NULL,
-  `CodigoPostal` int(11) DEFAULT NULL,
-  `Pais` varchar(45) DEFAULT NULL,
-  `Telefono` int(11) DEFAULT NULL,
-  PRIMARY KEY (`DNI`),
-  UNIQUE KEY `DNI_UNIQUE` (`DNI`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `Cliente` (
+  `IdCliente` varchar(5) NOT NULL,
+  `Nombre` varchar(30) DEFAULT NULL,
+  `Dirección` varchar(60) DEFAULT NULL,
+  `Ciudad` varchar(15) DEFAULT NULL,
+  `Región` varchar(15) DEFAULT NULL,
+  `CódPostal` varchar(10) DEFAULT NULL,
+  `País` varchar(15) DEFAULT NULL,
+  `Teléfono` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`IdCliente`),
+  KEY `Ciudad` (`Ciudad`),
+  KEY `CódPostal` (`CódPostal`),
+  KEY `Región` (`Región`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Clientes`
+-- Dumping data for table `Cliente`
 --
 
-LOCK TABLES `Clientes` WRITE;
-/*!40000 ALTER TABLE `Clientes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Clientes` ENABLE KEYS */;
+LOCK TABLES `Cliente` WRITE;
+/*!40000 ALTER TABLE `Cliente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -82,18 +82,22 @@ DROP TABLE IF EXISTS `Componente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Componente` (
-  `idComponente` int(11) NOT NULL,
-  `PrecioUnitario` int(11) DEFAULT NULL,
-  `Tipo` varchar(45) DEFAULT NULL,
-  `OrdenDeMontaje_idOrdenDeMontaje` int(11) NOT NULL,
-  `AlmacenDeComponentes_idAlmacenDeComponentes` int(11) NOT NULL,
-  PRIMARY KEY (`idComponente`),
-  UNIQUE KEY `idComponente_UNIQUE` (`idComponente`),
-  KEY `fk_Componente_OrdenDeMontaje1_idx` (`OrdenDeMontaje_idOrdenDeMontaje`),
-  KEY `fk_Componente_AlmacenDeComponentes1_idx` (`AlmacenDeComponentes_idAlmacenDeComponentes`),
-  CONSTRAINT `fk_Componente_OrdenDeMontaje1` FOREIGN KEY (`OrdenDeMontaje_idOrdenDeMontaje`) REFERENCES `OrdenDeMontaje` (`idOrdenDeMontaje`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Componente_AlmacenDeComponentes1` FOREIGN KEY (`AlmacenDeComponentes_idAlmacenDeComponentes`) REFERENCES `AlmacenDeComponentes` (`idAlmacenDeComponentes`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `IdProducto` int(10) NOT NULL AUTO_INCREMENT,
+  `NombreProducto` varchar(40) DEFAULT NULL,
+  `IdProveedor` int(10) DEFAULT NULL,
+  `IdCategoría` int(10) DEFAULT NULL,
+  `PrecioUnidad` decimal(19,4) DEFAULT NULL,
+  `Stock` int(11) DEFAULT NULL,
+  `StockEnPedido` int(11) DEFAULT NULL,
+  PRIMARY KEY (`IdProducto`),
+  KEY `CategoríasProductos` (`IdCategoría`),
+  KEY `IdCategoría` (`IdCategoría`),
+  KEY `IdProveedor` (`IdProveedor`),
+  KEY `NombreProducto` (`NombreProducto`),
+  KEY `ProveedoresProductos` (`IdProveedor`),
+  CONSTRAINT `CategoríasProductos` FOREIGN KEY (`IdCategoría`) REFERENCES `CategoriaComponente` (`IdCategoría`),
+  CONSTRAINT `ProveedoresProductos` FOREIGN KEY (`IdProveedor`) REFERENCES `Proveedores` (`IdProveedor`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,29 +110,34 @@ LOCK TABLES `Componente` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `OrdenDeMontaje`
+-- Table structure for table `DetallePedido`
 --
 
-DROP TABLE IF EXISTS `OrdenDeMontaje`;
+DROP TABLE IF EXISTS `DetallePedido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `OrdenDeMontaje` (
-  `idOrdenDeMontaje` int(11) NOT NULL,
-  `Pedido_idPedido` int(11) NOT NULL,
-  PRIMARY KEY (`idOrdenDeMontaje`),
-  UNIQUE KEY `idOrdenDeMontaje_UNIQUE` (`idOrdenDeMontaje`),
-  KEY `fk_OrdenDeMontaje_Pedido1_idx` (`Pedido_idPedido`),
-  CONSTRAINT `fk_OrdenDeMontaje_Pedido1` FOREIGN KEY (`Pedido_idPedido`) REFERENCES `Pedido` (`idPedido`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `DetallePedido` (
+  `IdPedido` int(10) NOT NULL,
+  `IdProducto` int(10) NOT NULL,
+  `PrecioUnitario` int(11) DEFAULT NULL,
+  `Cantidad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`IdPedido`,`IdProducto`),
+  KEY `IdPedido` (`IdPedido`),
+  KEY `IdProducto` (`IdProducto`),
+  KEY `PedidosDetalles de pedidos` (`IdPedido`),
+  KEY `ProductosDetalles de pedidos` (`IdProducto`),
+  CONSTRAINT `PedidosDetalles de pedidos` FOREIGN KEY (`IdPedido`) REFERENCES `Pedido` (`IdPedido`) ON DELETE CASCADE,
+  CONSTRAINT `ProductosDetalles de pedidos` FOREIGN KEY (`IdProducto`) REFERENCES `Componente` (`IdProducto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `OrdenDeMontaje`
+-- Dumping data for table `DetallePedido`
 --
 
-LOCK TABLES `OrdenDeMontaje` WRITE;
-/*!40000 ALTER TABLE `OrdenDeMontaje` DISABLE KEYS */;
-/*!40000 ALTER TABLE `OrdenDeMontaje` ENABLE KEYS */;
+LOCK TABLES `DetallePedido` WRITE;
+/*!40000 ALTER TABLE `DetallePedido` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DetallePedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -139,19 +148,20 @@ DROP TABLE IF EXISTS `Pedido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Pedido` (
-  `idPedido` int(11) NOT NULL,
-  `Estado` varchar(45) DEFAULT NULL,
-  `FechaDePedido` date DEFAULT NULL,
-  `FechaDeEnvio` date DEFAULT NULL,
-  `Precio` int(11) DEFAULT NULL,
-  `Ciudad` varchar(45) DEFAULT NULL,
-  `Region` varchar(45) DEFAULT NULL,
-  `Clientes_DNI` varchar(9) NOT NULL,
-  PRIMARY KEY (`idPedido`),
-  UNIQUE KEY `idPedido_UNIQUE` (`idPedido`),
-  KEY `fk_Pedido_Clientes_idx` (`Clientes_DNI`),
-  CONSTRAINT `fk_Pedido_Clientes` FOREIGN KEY (`Clientes_DNI`) REFERENCES `Clientes` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `IdPedido` int(10) NOT NULL AUTO_INCREMENT,
+  `IdCliente` varchar(5) DEFAULT NULL,
+  `FechaPedido` datetime DEFAULT NULL,
+  `FechaEntrega` datetime DEFAULT NULL,
+  `FechaEnvío` datetime DEFAULT NULL,
+  `Cargo` decimal(19,4) DEFAULT NULL,
+  `Estado` enum('REGISTRADO','MONTADO','SERVIDO','CANCELADO') NOT NULL,
+  PRIMARY KEY (`IdPedido`),
+  KEY `ClientesPedidos` (`IdCliente`),
+  KEY `FechaEnvío` (`FechaEnvío`),
+  KEY `FechaPedido` (`FechaPedido`),
+  KEY `IdCliente` (`IdCliente`),
+  CONSTRAINT `ClientesPedidos` FOREIGN KEY (`IdCliente`) REFERENCES `Cliente` (`IdCliente`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11078 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,32 +174,6 @@ LOCK TABLES `Pedido` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `ProductosTerminados`
---
-
-DROP TABLE IF EXISTS `ProductosTerminados`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ProductosTerminados` (
-  `idProductosTerminados` int(11) NOT NULL,
-  `OrdenDeMontaje_idOrdenDeMontaje` int(11) NOT NULL,
-  PRIMARY KEY (`idProductosTerminados`),
-  UNIQUE KEY `idProductosTerminados_UNIQUE` (`idProductosTerminados`),
-  KEY `fk_ProductosTerminados_OrdenDeMontaje1_idx` (`OrdenDeMontaje_idOrdenDeMontaje`),
-  CONSTRAINT `fk_ProductosTerminados_OrdenDeMontaje1` FOREIGN KEY (`OrdenDeMontaje_idOrdenDeMontaje`) REFERENCES `OrdenDeMontaje` (`idOrdenDeMontaje`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ProductosTerminados`
---
-
-LOCK TABLES `ProductosTerminados` WRITE;
-/*!40000 ALTER TABLE `ProductosTerminados` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ProductosTerminados` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Proveedores`
 --
 
@@ -197,20 +181,18 @@ DROP TABLE IF EXISTS `Proveedores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Proveedores` (
-  `idProveedores` int(11) NOT NULL,
-  `Nombre` varchar(45) DEFAULT NULL,
-  `Direccion` varchar(125) DEFAULT NULL,
-  `Ciudad` varchar(45) DEFAULT NULL,
-  `Region` varchar(45) DEFAULT NULL,
-  `CodigoPostal` int(11) DEFAULT NULL,
-  `Pais` varchar(45) DEFAULT NULL,
-  `Telefono` int(11) DEFAULT NULL,
-  `AlmacenDeComponentes_idAlmacenDeComponentes` int(11) NOT NULL,
-  PRIMARY KEY (`idProveedores`),
-  UNIQUE KEY `idProveedores_UNIQUE` (`idProveedores`),
-  KEY `fk_Proveedores_AlmacenDeComponentes1_idx` (`AlmacenDeComponentes_idAlmacenDeComponentes`),
-  CONSTRAINT `fk_Proveedores_AlmacenDeComponentes1` FOREIGN KEY (`AlmacenDeComponentes_idAlmacenDeComponentes`) REFERENCES `AlmacenDeComponentes` (`idAlmacenDeComponentes`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `IdProveedor` int(10) NOT NULL AUTO_INCREMENT,
+  `NombreCompañía` varchar(40) DEFAULT NULL,
+  `Dirección` varchar(60) DEFAULT NULL,
+  `Ciudad` varchar(15) DEFAULT NULL,
+  `Región` varchar(15) DEFAULT NULL,
+  `CódPostal` varchar(10) DEFAULT NULL,
+  `País` varchar(15) DEFAULT NULL,
+  `Teléfono` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`IdProveedor`),
+  KEY `CódPostal` (`CódPostal`),
+  KEY `NombreCompañía` (`NombreCompañía`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,4 +213,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-10  9:27:09
+-- Dump completed on 2015-03-10 11:07:00
