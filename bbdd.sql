@@ -85,8 +85,14 @@ CREATE TABLE `Componente` (
   `idComponente` int(11) NOT NULL,
   `PrecioUnitario` int(11) DEFAULT NULL,
   `Tipo` varchar(45) DEFAULT NULL,
+  `OrdenDeMontaje_idOrdenDeMontaje` int(11) NOT NULL,
+  `AlmacenDeComponentes_idAlmacenDeComponentes` int(11) NOT NULL,
   PRIMARY KEY (`idComponente`),
-  UNIQUE KEY `idComponente_UNIQUE` (`idComponente`)
+  UNIQUE KEY `idComponente_UNIQUE` (`idComponente`),
+  KEY `fk_Componente_OrdenDeMontaje1_idx` (`OrdenDeMontaje_idOrdenDeMontaje`),
+  KEY `fk_Componente_AlmacenDeComponentes1_idx` (`AlmacenDeComponentes_idAlmacenDeComponentes`),
+  CONSTRAINT `fk_Componente_OrdenDeMontaje1` FOREIGN KEY (`OrdenDeMontaje_idOrdenDeMontaje`) REFERENCES `OrdenDeMontaje` (`idOrdenDeMontaje`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Componente_AlmacenDeComponentes1` FOREIGN KEY (`AlmacenDeComponentes_idAlmacenDeComponentes`) REFERENCES `AlmacenDeComponentes` (`idAlmacenDeComponentes`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -108,8 +114,11 @@ DROP TABLE IF EXISTS `OrdenDeMontaje`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `OrdenDeMontaje` (
   `idOrdenDeMontaje` int(11) NOT NULL,
+  `Pedido_idPedido` int(11) NOT NULL,
   PRIMARY KEY (`idOrdenDeMontaje`),
-  UNIQUE KEY `idOrdenDeMontaje_UNIQUE` (`idOrdenDeMontaje`)
+  UNIQUE KEY `idOrdenDeMontaje_UNIQUE` (`idOrdenDeMontaje`),
+  KEY `fk_OrdenDeMontaje_Pedido1_idx` (`Pedido_idPedido`),
+  CONSTRAINT `fk_OrdenDeMontaje_Pedido1` FOREIGN KEY (`Pedido_idPedido`) REFERENCES `Pedido` (`idPedido`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -137,8 +146,11 @@ CREATE TABLE `Pedido` (
   `Precio` int(11) DEFAULT NULL,
   `Ciudad` varchar(45) DEFAULT NULL,
   `Region` varchar(45) DEFAULT NULL,
+  `Clientes_DNI` varchar(9) NOT NULL,
   PRIMARY KEY (`idPedido`),
-  UNIQUE KEY `idPedido_UNIQUE` (`idPedido`)
+  UNIQUE KEY `idPedido_UNIQUE` (`idPedido`),
+  KEY `fk_Pedido_Clientes_idx` (`Clientes_DNI`),
+  CONSTRAINT `fk_Pedido_Clientes` FOREIGN KEY (`Clientes_DNI`) REFERENCES `Clientes` (`DNI`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -160,8 +172,11 @@ DROP TABLE IF EXISTS `ProductosTerminados`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ProductosTerminados` (
   `idProductosTerminados` int(11) NOT NULL,
+  `OrdenDeMontaje_idOrdenDeMontaje` int(11) NOT NULL,
   PRIMARY KEY (`idProductosTerminados`),
-  UNIQUE KEY `idProductosTerminados_UNIQUE` (`idProductosTerminados`)
+  UNIQUE KEY `idProductosTerminados_UNIQUE` (`idProductosTerminados`),
+  KEY `fk_ProductosTerminados_OrdenDeMontaje1_idx` (`OrdenDeMontaje_idOrdenDeMontaje`),
+  CONSTRAINT `fk_ProductosTerminados_OrdenDeMontaje1` FOREIGN KEY (`OrdenDeMontaje_idOrdenDeMontaje`) REFERENCES `OrdenDeMontaje` (`idOrdenDeMontaje`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,8 +205,11 @@ CREATE TABLE `Proveedores` (
   `CodigoPostal` int(11) DEFAULT NULL,
   `Pais` varchar(45) DEFAULT NULL,
   `Telefono` int(11) DEFAULT NULL,
+  `AlmacenDeComponentes_idAlmacenDeComponentes` int(11) NOT NULL,
   PRIMARY KEY (`idProveedores`),
-  UNIQUE KEY `idProveedores_UNIQUE` (`idProveedores`)
+  UNIQUE KEY `idProveedores_UNIQUE` (`idProveedores`),
+  KEY `fk_Proveedores_AlmacenDeComponentes1_idx` (`AlmacenDeComponentes_idAlmacenDeComponentes`),
+  CONSTRAINT `fk_Proveedores_AlmacenDeComponentes1` FOREIGN KEY (`AlmacenDeComponentes_idAlmacenDeComponentes`) REFERENCES `AlmacenDeComponentes` (`idAlmacenDeComponentes`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -213,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-06 11:24:29
+-- Dump completed on 2015-03-10  9:27:09
